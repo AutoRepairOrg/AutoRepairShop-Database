@@ -15,45 +15,5 @@ services:
       timeout: 5s
       retries: 15
 
-  api:
-    build:
-      context: .
-      dockerfile: src/AutoRepairShop.Api/Dockerfile
-    container_name: autorepairshop-api
-    depends_on:
-      sqlserver:
-        condition: service_healthy
-      mailhog:
-        condition: service_started
-    ports:
-      - "5000:8080"
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
-
-      ConnectionStrings__DefaultConnection: >
-        Server=sqlserver,1433;
-        Database=AutoRepairShopDb;
-        User Id=sa;
-        Password=${DB_PASSWORD};
-        TrustServerCertificate=True
-
-      JWT__KEY: ${JWT_KEY}
-      JWT__ISSUER: ${JWT_ISSUER}
-      JWT__AUDIENCE: ${JWT_AUDIENCE}
-      JWT__EXPIRESINMINUTES: ${JWT_EXPIRES_IN_MINUTES}
-
-      Email__SmtpHost: mailhog
-      Email__SmtpPort: 1025
-      Email__FromAddress: noreply@autorepairshop.local
-      Email__FromName: Auto Repair Shop
-      Email__UseSsl: "false"
-
-  mailhog:
-    image: mailhog/mailhog:latest
-    container_name: autorepairshop-mailhog
-    ports:
-      - "1025:1025"
-      - "8025:8025"
-
 volumes:
   autorepairshop-sql-data:
