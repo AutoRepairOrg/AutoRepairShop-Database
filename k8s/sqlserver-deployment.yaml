@@ -15,6 +15,8 @@ spec:
       labels:
         app: sqlserver
     spec:
+      securityContext:
+        fsGroup: 10001
       containers:
         - name: sqlserver
           image: mcr.microsoft.com/mssql/server:2022-latest
@@ -23,8 +25,24 @@ spec:
           env:
             - name: ACCEPT_EULA
               value: "Y"
+            - name: MSSQL_PID
+              value: "Express"
             - name: SA_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: sqlserver-secret
                   key: SA_PASSWORD
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "2Gi"
+            limits:
+              cpu: "1"
+              memory: "4Gi"
+          volumeMounts:
+            - name: data
+              mountPath: /var/opt/mssql
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: sqlserver-pvc
