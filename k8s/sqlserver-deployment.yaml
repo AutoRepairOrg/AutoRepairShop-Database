@@ -5,8 +5,6 @@ metadata:
   namespace: oficina
 spec:
   replicas: 1
-  strategy:
-    type: Recreate
   selector:
     matchLabels:
       app: sqlserver
@@ -15,8 +13,6 @@ spec:
       labels:
         app: sqlserver
     spec:
-      securityContext:
-        fsGroup: 10001
       containers:
         - name: sqlserver
           image: mcr.microsoft.com/mssql/server:2022-latest
@@ -34,15 +30,14 @@ spec:
                   key: SA_PASSWORD
           resources:
             requests:
-              cpu: "500m"
-              memory: "2Gi"
+              cpu: "250m"
+              memory: "1Gi"
             limits:
               cpu: "1"
-              memory: "4Gi"
+              memory: "2Gi"
           volumeMounts:
             - name: data
               mountPath: /var/opt/mssql
       volumes:
         - name: data
-          persistentVolumeClaim:
-            claimName: sqlserver-pvc
+          emptyDir: {}
