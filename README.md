@@ -1,23 +1,6 @@
 # 🗄️ AutoRepairShop-Database
 
 Infraestrutura do banco de dados gerenciado (RDS SQL Server) para o sistema de gestão de oficina mecânica.
-
-## 📋 Índice
-
-- [Sobre](#sobre)
-- [Tecnologias](#tecnologias)
-- [Arquitetura](#arquitetura)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação e Deploy](#instalação-e-deploy)
-- [CI/CD](#cicd)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Variáveis de Ambiente](#variáveis-de-ambiente)
-- [Migrations](#migrations)
-- [Diagrama ER](#diagrama-er)
-- [Monitoramento](#monitoramento)
-- [Contribuindo](#contribuindo)
-- [Licença](#licença)
-
 ---
 
 ## 📖 Sobre
