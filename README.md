@@ -330,9 +330,6 @@ Este projeto faz parte do **Tech Challenge - Fase 3** da FIAP.
 - [AutoRepairShop-Api](https://github.com/AutoRepairOrg/AutoRepairShop-Api) - Aplicação principal
 - [AutoRepairShop-Kubernetes](https://github.com/AutoRepairOrg/AutoRepairShop-Kubernetes) - Infraestrutura K8s
 - [AutoRepairShop-Lambda](https://github.com/AutoRepairOrg/AutoRepairShop-Lambda) - Autenticação serverless
-
 ---
 
-✅ **README do Database pronto!**
-
-Agora vamos para o **Kubernetes** (CI + CD + README)? 🚀
++ README)?
