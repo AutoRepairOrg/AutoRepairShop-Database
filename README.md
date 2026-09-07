@@ -1,4 +1,4 @@
-# 🗄️ AutoRepairShop-Database
+# 🗄️ AutoRepairShop - Database
 
 Infraestrutura do banco de dados gerenciado (RDS SQL Server) para o sistema de gestão de oficina mecânica.
 ---
