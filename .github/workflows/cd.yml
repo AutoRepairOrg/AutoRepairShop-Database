@@ -1,4 +1,4 @@
-name: CD - Deploy Database
+name: CD - Deploy Database 
 
 on:
   push:
