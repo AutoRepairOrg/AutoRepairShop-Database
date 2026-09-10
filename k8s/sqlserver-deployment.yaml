@@ -40,4 +40,5 @@ spec:
               mountPath: /var/opt/mssql
       volumes:
         - name: data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: sqlserver-pvc
