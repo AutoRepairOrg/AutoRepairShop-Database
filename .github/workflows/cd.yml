@@ -1,46 +1,43 @@
-name: CD - Deploy Database 
-
+name: CD - Deploy Database
 on:
   push:
     branches: [ master ]
     paths:
-      - 'infra/**'
+      - 'k8s/**'
+      - '.github/workflows/cd.yml'
+  workflow_dispatch:
 
 jobs:
-  terraform-deploy:
+  deploy-database:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./infra
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_version: 1.6.6
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: us-east-1
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-        aws-region: us-east-1
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig --name autorepairshop-eks --region us-east-1
+          kubectl get nodes
 
-    - name: Terraform Init
-      run: terraform init
+      - name: Deploy Namespace
+        run: kubectl apply -f k8s/namespace.yaml
 
-    - name: Terraform Plan
-      run: terraform plan -no-color
+      - name: Deploy SQL Server
+        run: |
+          kubectl apply -f k8s/sqlserver-secret.yaml
+          kubectl apply -f k8s/sqlserver-pvc.yaml
+          kubectl apply -f k8s/sqlserver-deployment.yaml
+          kubectl apply -f k8s/sqlserver-service.yaml
 
-    - name: Terraform Apply
-      run: terraform apply -auto-approve
-
-    - name: Output RDS Endpoint
-      run: |
-        echo "🎉 RDS SQL Server deployed successfully!"
-        echo "Endpoint:"
-        terraform output rds_endpoint || echo "Output não disponível"
+      - name: Wait for SQL Server rollout
+        run: |
+          kubectl rollout status deployment/sqlserver -n oficina --timeout=5m
+          kubectl get pods,svc,pvc -n oficina
