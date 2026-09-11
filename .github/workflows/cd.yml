@@ -33,11 +33,11 @@ jobs:
       - name: Deploy SQL Server
         run: |
           kubectl apply -f k8s/sqlserver-secret.yaml
-          kubectl apply -f k8s/sqlserver-nlb.yaml
           kubectl apply -f k8s/sqlserver-storageclass.yaml
           kubectl apply -f k8s/sqlserver-pvc.yaml
           kubectl apply -f k8s/sqlserver-deployment.yaml
           kubectl apply -f k8s/sqlserver-service.yaml
+          kubectl apply -f k8s/sqlserver-nlb.yaml
 
       - name: Wait for SQL Server rollout
         run: |
