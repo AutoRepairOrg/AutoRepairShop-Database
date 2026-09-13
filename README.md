@@ -28,31 +28,31 @@ O banco de dados armazena:
 
 ```
 ┌─────────────────────────────────────────┐
-│         AutoRepairShop-Database         │
+│          AutoRepairShop-Database        │
 ├─────────────────────────────────────────┤
 │                                         │
 │  ┌───────────────────────────────────┐ │
-│  │    RDS SQL Server Express         │ │
-│  │  - Instance: db.t3.micro          │ │
-│  │  - Storage: 20 GB (gp2)           │ │
-│  │  - Multi-AZ: No                   │ │
-│  │  - Backup: 7 dias                 │ │
+│  │       SQL Server no EKS           │ │
+│  │  - Kubernetes Pod                 │ │
+│  │  - Namespace: oficina             │ │
+│  │  - SQL Server 2022                │ │
+│  │  - Porta: 1433                    │ │
+│  │  - Banco: AutoRepairShopDb        │ │
+│  └───────────────────────────────────┘ │
+│                    │                    │
+│                    ▼                    │
+│  ┌───────────────────────────────────┐ │
+│  │      Kubernetes Service            │ │
+│  │  - Nome: sqlserver                │ │
+│  │  - Tipo: ClusterIP                │ │
+│  │  - Porta: 1433                    │ │
+│  │  - Acesso interno ao cluster      │ │
 │  └───────────────────────────────────┘ │
 │                                         │
 │  ┌───────────────────────────────────┐ │
-│  │    AWS Secrets Manager            │ │
-│  │  - RDS Credentials                │ │
-│  │  - Connection String              │ │
-│  └───────────────────────────────────┘ │
-│                                         │
-│  ┌───────────────────────────────────┐ │
-│  │    Security Group                 │ │
-│  │  - Ingress: 1433 (VPC only)       │ │
-│  └───────────────────────────────────┘ │
-│                                         │
-│  ┌───────────────────────────────────┐ │
-│  │    DB Subnet Group                │ │
-│  │  - Private Subnets (Multi-AZ)     │ │
+│  │      Kubernetes Namespace          │ │
+│  │  - Nome: oficina                  │ │
+│  │  - Isolamento lógico dos recursos │ │
 │  └───────────────────────────────────┘ │
 │                                         │
 └─────────────────────────────────────────┘
