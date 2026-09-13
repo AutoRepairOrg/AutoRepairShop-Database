@@ -173,26 +173,10 @@ AutoRepairShop-Database/
 
 ---
 
-## 🔐 Variáveis de Ambiente
-
-### **RDS Connection String**
-
-Após o deploy, o endpoint estará disponível em:
-
-```bash
-# Via Terraform Output
-terraform output rds_endpoint
-
-# Via AWS Secrets Manager
-aws secretsmanager get-secret-value \
-  --secret-id autorepair/rds-credentials \
-  --query SecretString --output text
-```
-
 ### **Connection String Format**
 
 ```
-Server=<RDS_ENDPOINT>,1433;
+Server=server,1433;
 Database=AutoRepairShop;
 User Id=admin;
 Password=<PASSWORD>;
@@ -271,31 +255,6 @@ dotnet ef database update --project ../AutoRepairShop.Api
 ```
 
 ---
-
-## 📝 Justificativa da Escolha - RDS SQL Server
-
-### **Por que RDS?**
-
-✅ **Gerenciamento Automático:**
-- Backups automáticos (7 dias de retenção)
-- Patches de segurança aplicados automaticamente
-- Monitoramento integrado com CloudWatch
-
-✅ **Alta Disponibilidade:**
-- Multi-AZ disponível (quando necessário)
-- Failover automático
-- Snapshots automatizados
-
-✅ **Escalabilidade:**
-- Escala vertical sem downtime (change instance type)
-- Read replicas disponíveis
-- Storage auto-scaling
-
-✅ **Segurança:**
-- Criptografia em repouso (KMS)
-- Criptografia em trânsito (SSL/TLS)
-- Integração com Secrets Manager
-- VPC isolation (subnets privadas)
 
 ### **Por que SQL Server?**
 
