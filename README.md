@@ -18,7 +18,6 @@ O banco de dados armazena:
 ## 🛠️ Tecnologias
 
 - **Terraform** 1.6.6 - Infraestrutura como código
-- **AWS RDS** - SQL Server Express 15.00
 - **AWS Secrets Manager** - Gerenciamento de credenciais
 - **GitHub Actions** - CI/CD automático
 - **Entity Framework Core** - Migrations (via API)
